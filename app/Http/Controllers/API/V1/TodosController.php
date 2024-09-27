@@ -65,6 +65,9 @@ class TodosController extends Controller
      */
     public function destroy(todos $todo)
     {
-        //
+        $delete = todos::all()->findOrFail($todo);
+        $delete->delete();
+        return "Record Deleted";
+
     }
 }
