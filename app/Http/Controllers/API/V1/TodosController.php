@@ -13,17 +13,13 @@ class TodosController extends Controller
      */
     public function index()
     {
-
-        return Todos::paginate(3);
+        $data = Todos::paginate(3);
+        return response()->json([
+            'message' => "Todos retrieved successfully",
+            'data' => $data
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -36,23 +32,16 @@ class TodosController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Todos $todo)
+    public function show(Todos $id)
     {
-        return new $todo;
+        $data = Todos::all()->findOrFail($id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Todos $todo)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatetodosRequest $request, Todos $todo)
+    public function update(UpdatetodosRequest $request, Todos $id)
     {
         //
     }
@@ -60,9 +49,9 @@ class TodosController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Todos $todo)
+    public function destroy(Todos $id)
     {
-        $delete = Todos::all()->findOrFail($todo);
+        $delete = Todos::all()->findOrFail($id);
         $delete->delete();
         return "Record Deleted";
 
