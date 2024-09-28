@@ -8,5 +8,5 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\API\V1'], function () {
-    Route::apiResource('todos', TodosController::class);
+    Route::apiResource('Todos', TodosController::class);
 });

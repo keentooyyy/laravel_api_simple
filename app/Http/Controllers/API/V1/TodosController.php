@@ -4,9 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Requests\StoretodosRequest;
 use App\Http\Requests\UpdatetodosRequest;
-use App\Http\Resources\V1\TodoResource;
-use App\Http\Resources\V1\TodoCollection;
-use App\Models\todos;
+use App\Models\Todos;
 
 class TodosController extends Controller
 {
@@ -16,8 +14,7 @@ class TodosController extends Controller
     public function index()
     {
 
-        return new TodoCollection(todos::paginate(3));
-//        return todos::all();
+        return Todos::paginate(3);
     }
 
     /**
@@ -39,15 +36,15 @@ class TodosController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(todos $todo)
+    public function show(Todos $todo)
     {
-        return new TodoResource($todo);
+        return new $todo;
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(todos $todo)
+    public function edit(Todos $todo)
     {
         //
     }
@@ -55,7 +52,7 @@ class TodosController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatetodosRequest $request, todos $todo)
+    public function update(UpdatetodosRequest $request, Todos $todo)
     {
         //
     }
@@ -63,9 +60,9 @@ class TodosController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(todos $todo)
+    public function destroy(Todos $todo)
     {
-        $delete = todos::all()->findOrFail($todo);
+        $delete = Todos::all()->findOrFail($todo);
         $delete->delete();
         return "Record Deleted";
 
