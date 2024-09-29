@@ -9,8 +9,5 @@ class Todos extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'todo_item',
-        'id'
-    ];
+    protected $fillable = ['todo_item', 'id'];
 }
