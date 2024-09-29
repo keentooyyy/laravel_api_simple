@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('todos', function (Blueprint $table) {
-            $table->id()->unique();
-            $table->string('todo_item');
+            $table->unsignedInteger('id',false)->unique()->primary();
+            $table->string('todo_item',100);
             $table->timestamps();
         });
     }
