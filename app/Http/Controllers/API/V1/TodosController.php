@@ -33,7 +33,7 @@ class TodosController extends Controller
         $id = $faker->randomNumber(5, true);
         $validate = Validator::make($request->all(), [
             'todo_item' => 'required|string|max:30',
-            'id' => str($id),
+//            'id' => str($id),
         ]);
 
         if ($validate->fails()) {
@@ -41,11 +41,16 @@ class TodosController extends Controller
                 'message' => "Validation Error",
             ],422);
         }
-        $todo_item = Todos::create($request->all());
-        return response()->json([
+        $strReq = implode($request->all());
+        $data = [
+            'id' => $id,
+            'todo_item' => $strReq,
+        ];
+//        dd($data,$strReq);
 
+        $todo_item = Todos::create($data);
+        return response()->json([
             'message' => "Todo item created successfully",
-            'data' => $todo_item
         ], 201);
     }
 
