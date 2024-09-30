@@ -63,15 +63,18 @@ class TodosController extends Controller
     public function update(UpdateTodosRequest $request, Todos $id)
     {
         $update = Todos::all()->findOrFail($id);
+//        return response()->json($update);
         $validate = Validator::make($request->all(), [
             'todo_item' => 'required|string|max:30',
-            'id' => $update
         ]);
         if ($validate->fails()) {
             return response()->json(['message' => "Todo not found.",], 422);
         }
-
-        $update->update($request->todo_item);
+//        dd($request->all());
+        $data = [
+            'todo_item' => $request->todo_item
+        ];
+        $update->update($data);
         $show_all_todos = Todos::all();
         return response()->json([
             'message' => "Todo item updated Successfully",
