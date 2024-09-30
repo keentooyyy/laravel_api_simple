@@ -28,26 +28,29 @@ class TodosController extends Controller
     {
         $faker = Factory::create();
         $id = $faker->randomNumber(5, true);
-        $validate = Validator::make($request->all(), ['todo_item' => 'required|string|max:30',//            'id' => str($id),
+        $validate = Validator::make($request->all(), [
+            'todo_item' => 'required|string|max:30',
         ]);
 
         if ($validate->fails()) {
             return response()->json(['message' => "Validation Error",], 422);
         }
-        $strReq = implode($request->all());
+        $strReq = $request->todo_item;
         $data = ['id' => $id, 'todo_item' => $strReq,];
 //        dd($data,$strReq);
 
-        $todo_item = Todos::create($data);
-
-        return response()->json(['message' => "Todo item created successfully",//            'data' => $todo_item
+        Todos::create($data);
+        $show_all_todos = Todos::all()->findOrFail($id);
+        return response()->json([
+            'message' => "Todo item created successfully",
+            'data' => $show_all_todos
         ], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Todos $id): JsonResponse
+    public function show(Todos $id)
     {
         $data = Todos::all()->findOrFail($id);
         return response()->json(['message' => 'Todo retrieved successfully', 'data' => $data]);
@@ -59,7 +62,21 @@ class TodosController extends Controller
      */
     public function update(UpdateTodosRequest $request, Todos $id)
     {
-        //
+        $update = Todos::all()->findOrFail($id);
+        $validate = Validator::make($request->all(), [
+            'todo_item' => 'required|string|max:30',
+            'id' => $update
+        ]);
+        if ($validate->fails()) {
+            return response()->json(['message' => "Todo not found.",], 422);
+        }
+
+        $update->update($request->todo_item);
+        $show_all_todos = Todos::all();
+        return response()->json([
+            'message' => "Todo item updated Successfully",
+            'data'=> $show_all_todos,
+        ], 200);
     }
 
     /**
