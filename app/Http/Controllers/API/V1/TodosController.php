@@ -17,7 +17,8 @@ class TodosController extends Controller
     public function index(): JsonResponse
     {
         $data = Todos::all();
-        return response()->json(['message' => "Todos retrieved successfully", 'data' => $data], 200);
+        $order = $data->sortByDesc('created_at')->values();
+        return response()->json(['message' => "Todos retrieved successfully", 'data' => $order], 200);
     }
 
 
